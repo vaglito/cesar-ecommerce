@@ -31,7 +31,9 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
-MICROSERVICES = []
+MICROSERVICES = [
+    'apps.product.apps.ProductConfig',
+]
 
 BASE_DJANGO = [
     'django.contrib.admin',
