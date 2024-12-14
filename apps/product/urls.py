@@ -12,6 +12,7 @@ product_detail = views.ProductViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
     'patch': 'partial_update',
+    'delete': 'destroy',
     })
 
 urlpatterns = [

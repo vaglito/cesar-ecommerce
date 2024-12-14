@@ -9,7 +9,16 @@ from .models import Product
 class ProductViewSet(viewsets.ViewSet):
 
     def list(self, request):
+        category = request.query_params.get('category', None)
         queryset = Product.objects.all()
+
+        if category:
+            if not Product.objects.filter(category=category).exists():
+                return Response({
+                    "error": "Categoria no encontrada",
+                }, status=status.HTTP_400_BAD_REQUEST)
+            queryset = queryset.filter(category=category)
+
         serializer = ProductListSerializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -43,6 +52,12 @@ class ProductViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, id, format=None):
+        queryset = Product.objects.all()
+        product = get_object_or_404(queryset, id=id)
+        product.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
     
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update']:

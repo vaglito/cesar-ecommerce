@@ -44,6 +44,7 @@ BASE_DJANGO = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'django_filters',
 ]
 
 INSTALLED_APPS = BASE_DJANGO + MICROSERVICES
@@ -176,3 +177,11 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
+
+# Rest framework setting
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        # ...
+    ),
+}
